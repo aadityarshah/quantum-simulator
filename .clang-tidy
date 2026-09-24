@@ -1,0 +1,12 @@
+Checks: >
+  bugprone-*,
+  performance-*,
+  portability-*,
+  -readability-identifier-length,
+  -readability-named-parameter,
+  -llvmlibc-*,
+  -altera-struct-pack-align
+
+WarningsAsErrors: ''
+
+HeaderFilterRegex: '.*'

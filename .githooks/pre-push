@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo "Running pre-push checks..."
+
+echo "Building and testing..."
+make clean
+make test || exit 1
+
+echo "Running static analysis..."
+make lint || exit 1
+
+echo "Pre-push checks passed."

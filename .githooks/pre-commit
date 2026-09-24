@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "Running pre-commit checks..."
+
+echo "Checking formatting..."
+make format-check || exit 1
+
+echo "Running tests..."
+make test || exit 1
+
+echo "Pre-commit checks passed."
