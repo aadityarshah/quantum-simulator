@@ -5,7 +5,8 @@ Checks: >
   -readability-identifier-length,
   -readability-named-parameter,
   -llvmlibc-*,
-  -altera-struct-pack-align
+  -altera-struct-pack-align,
+  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling
 
 WarningsAsErrors: ''
 

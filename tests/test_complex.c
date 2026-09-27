@@ -5,11 +5,11 @@
 
 #define EPSILON 1e-12L
 
-int complex_equal(Complex a, Complex b) {
+static int complex_approx_equal(Complex a, Complex b) {
     return fabsl(a.x - b.x) < EPSILON && fabsl(a.y - b.y) < EPSILON;
 }
 
-int test_add(void) {
+static int test_add(void) {
 
     Complex z1 = {3, 4};
     Complex z2 = {5, 8};
@@ -17,7 +17,7 @@ int test_add(void) {
     Complex expected = {8, 12};
     Complex actual = complex_add(z1, z2);
 
-    if (complex_equal(actual, expected)) {
+    if (complex_approx_equal(actual, expected)) {
         printf("PASS: complex_add\n");
         return 0;
     } else {
@@ -30,7 +30,7 @@ int test_add(void) {
     }
 }
 
-int test_subtract(void) {
+static int test_subtract(void) {
 
     Complex z1 = {3, 4};
     Complex z2 = {5, 8};
@@ -38,7 +38,7 @@ int test_subtract(void) {
     Complex expected = {-2, -4};
     Complex actual = complex_subtract(z1, z2);
 
-    if (complex_equal(actual, expected)) {
+    if (complex_approx_equal(actual, expected)) {
         printf("PASS: complex_subtract\n");
         return 0;
     } else {
@@ -51,7 +51,7 @@ int test_subtract(void) {
     }
 }
 
-int test_multiply(void) {
+static int test_multiply(void) {
 
     Complex z1 = {3, 4};
     Complex z2 = {5, 8};
@@ -59,7 +59,7 @@ int test_multiply(void) {
     Complex expected = {-17, 44};
     Complex actual = complex_multiply(z1, z2);
 
-    if (complex_equal(actual, expected)) {
+    if (complex_approx_equal(actual, expected)) {
         printf("PASS: complex_multiply\n");
         return 0;
     } else {
@@ -72,14 +72,14 @@ int test_multiply(void) {
     }
 }
 
-int test_conjugate(void) {
+static int test_conjugate(void) {
 
     Complex z = {3, 4};
 
     Complex expected = {3, -4};
     Complex actual = complex_conjugate(z);
 
-    if (complex_equal(actual, expected)) {
+    if (complex_approx_equal(actual, expected)) {
         printf("PASS: complex_conjugate\n");
         return 0;
     } else {
@@ -92,7 +92,7 @@ int test_conjugate(void) {
     }
 }
 
-int test_magnitude(void) {
+static int test_magnitude(void) {
 
     Complex z = {3, 4};
 
@@ -120,7 +120,7 @@ int main(void) {
     failures += test_magnitude();
 
     if (failures == 0) {
-        printf("\nAll tests passed.\n");
+        printf("\nAll complex tests passed.\n");
     } else {
         printf("\n%d test(s) failed.\n", failures);
     }
