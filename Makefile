@@ -9,16 +9,20 @@ TEST_DIR = tests
 INCLUDE_DIR = include
 BUILD_DIR = build
 
-TEST = $(BUILD_DIR)/test_complex
+TESTS = $(BUILD_DIR)/test_complex $(BUILD_DIR)/test_qubit
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-$(TEST): $(SRC_DIR)/complex.c $(TEST_DIR)/test_complex.c | $(BUILD_DIR)
+$(BUILD_DIR)/test_complex: $(SRC_DIR)/complex.c $(TEST_DIR)/test_complex.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 
-test: $(TEST)
-	./$(TEST)
+$(BUILD_DIR)/test_qubit: $(SRC_DIR)/complex.c $(SRC_DIR)/qubit.c $(TEST_DIR)/test_qubit.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
+
+test: $(TESTS)
+	./$(BUILD_DIR)/test_complex
+	./$(BUILD_DIR)/test_qubit
 
 format:
 	find $(SRC_DIR) $(INCLUDE_DIR) $(TEST_DIR) -type f \( -name "*.c" -o -name "*.h" \) -exec clang-format -i {} +
@@ -28,6 +32,6 @@ format-check:
 
 lint:
 	clang-tidy $(SRC_DIR)/*.c -- -std=c17 -Iinclude
-	
+
 clean:
 	rm -rf $(BUILD_DIR)
