@@ -40,14 +40,20 @@ void qubit_normalize(Qubit* a) {
 }
 
 long double polar_angle_of_qubit(Qubit a) {
-    return 2 * acosl(a.amplitudes[0].x);
+    return 2 * acosl(complex_magnitude(a.amplitudes[0]));
 }
 
 long double azimuthal_angle_of_qubit(Qubit a) {
     if ((a.amplitudes[1].x == 0 && a.amplitudes[1].y == 0) ||
         (a.amplitudes[0].x == 0 && a.amplitudes[0].y == 0))
         return NAN;
-    return complex_argument(a.amplitudes[1]);
+
+    long double angle = complex_argument(a.amplitudes[1]) - complex_argument(a.amplitudes[0]);
+
+    if (angle < 0)
+        angle += 2 * acosl(-1.0L);
+
+    return angle;
 }
 
 void ignore_phase_factor_in_qubit(Qubit* a) {

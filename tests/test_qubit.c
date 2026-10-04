@@ -203,7 +203,7 @@ static int test_angular_parameters_of_qubit(void) {
     Qubit minus = {{{inverse_sqrt_two, 0.0L}, {-inverse_sqrt_two, 0.0L}}};
     Qubit minus_i = {{{inverse_sqrt_two, 0.0L}, {0.0L, -inverse_sqrt_two}}};
     Qubit arbitrary = {
-        {{sqrtl(3.0L) / 2.0L, 0.0L}, {1.0L / (2.0L * sqrtl(2.0L)), 1.0L / (2.0L * sqrtl(2.0L))}}};
+        {{0.0L, sqrtl(3.0L) / 2.0L}, {-1.0L / (2.0L * sqrtl(2.0L)), 1.0L / (2.0L * sqrtl(2.0L))}}};
 
     long double expected_polar_angle_zero = 0.0L;
     long double expected_polar_angle_one = PI;
@@ -326,12 +326,13 @@ static int test_ignore_phase_factor(void) {
 
     long double inverse_sqrt_two = 1.0L / sqrtl(2.0L);
 
-    Qubit a = {{{0.0L, inverse_sqrt_two}, {inverse_sqrt_two, 0.0L}}};
+    Qubit a = {
+        {{0.0L, sqrtl(3.0L) / 2.0L}, {-1.0L / (2.0L * sqrtl(2.0L)), 1.0L / (2.0L * sqrtl(2.0L))}}};
 
     ignore_phase_factor_in_qubit(&a);
 
-    Complex expected_alpha = {inverse_sqrt_two, 0.0L};
-    Complex expected_beta = {0.0L, -inverse_sqrt_two};
+    Complex expected_alpha = {sqrtl(3.0L) / 2.0L, 0.0L};
+    Complex expected_beta = {1.0L / (2.0L * sqrtl(2.0L)), 1.0L / (2.0L * sqrtl(2.0L))};
 
     if (!complex_approx_equal(a.amplitudes[0], expected_alpha)) {
         failures++;

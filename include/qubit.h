@@ -67,7 +67,7 @@ void qubit_normalize(Qubit* a);
  * Computes the polar angle of a normalized qubit state with its phase factor ignored
  * in the Bloch Sphere representation.
  *
- * @param a A normalized qubit state with its global phase factor ignored
+ * @param a A normalized qubit state
  * @return The polar angle (in radians) of a in the Bloch Sphere
  * representation.
  */
@@ -77,7 +77,7 @@ long double polar_angle_of_qubit(Qubit a);
  * Computes the azimuthal angle of a normalized qubit state with its phase factor ignored
  * in the Bloch Sphere representation.
  *
- * @param a A normalized qubit state with its global phase factor ignored
+ * @param a A normalized qubit state
  * @return The azimuthal angle (in radians) of a in the Bloch Sphere
  * representation.
  */
