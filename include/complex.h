@@ -50,6 +50,14 @@ Complex complex_conjugate(Complex a);
 long double complex_magnitude(Complex a);
 
 /**
+ * Computes the argument of a complex number in [0, 2PI)
+ *
+ * @param a A complex number.
+ * @return The argument of a
+ */
+long double complex_argument(Complex a);
+
+/**
  * Print a complex number to standard output.
  *
  * @param a A complex number.

@@ -59,9 +59,37 @@ long double probability_one(Qubit norm_a);
 /**
  * Normalizes the given qubit state in-place.
  *
- * @param a A qubit state
+ * @param a A qubit state pointer
  */
 void qubit_normalize(Qubit* a);
+
+/**
+ * Computes the polar angle of a normalized qubit state along with ignored phase factor
+ * in the Bloch Sphere representation
+ *
+ * @param a A normalized qubit state
+ * @return The polar angle (in radians) of a in the Bloch Sphere
+ * representation.
+ */
+long double polar_angle_of_qubit(Qubit a);
+
+/**
+ * Computes the azimuthal angle of a normalized qubit state along with ignored phase factor
+ * in the Bloch Sphere representation
+ *
+ * @param a A normalized qubit state
+ * @return The azimuthal angle (in radians) of a in the Bloch Sphere
+ * representation.
+ */
+long double azimuthal_angle_of_qubit(Qubit a);
+
+/**
+ * Removes the global phase factor in-place to give
+ * qubit state physically same to a.
+ *
+ * @param a A normalized qubit state pointer
+ */
+void ignore_phase_factor_in_qubit(Qubit* a);
 
 /**
  * Print a qubit state to the standard output.
