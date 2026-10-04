@@ -32,9 +32,37 @@ void qubit_normalize(Qubit* a) {
         fprintf(stderr, "Error: zero qubit cannot be normalized.\n");
         return;
     }
+    if (norm_val == 1.0L)
+        return;
     Complex mul_factor = {1.0L / norm_val, 0.0L};
     a->amplitudes[0] = complex_multiply(a->amplitudes[0], mul_factor);
     a->amplitudes[1] = complex_multiply(a->amplitudes[1], mul_factor);
+}
+
+long double polar_angle_of_qubit(Qubit a) {
+    return 2 * acosl(complex_magnitude(a.amplitudes[0]));
+}
+
+long double azimuthal_angle_of_qubit(Qubit a) {
+    if ((a.amplitudes[1].x == 0 && a.amplitudes[1].y == 0) ||
+        (a.amplitudes[0].x == 0 && a.amplitudes[0].y == 0))
+        return NAN;
+
+    long double angle = complex_argument(a.amplitudes[1]) - complex_argument(a.amplitudes[0]);
+
+    if (angle < 0)
+        angle += 2 * acosl(-1.0L);
+
+    return angle;
+}
+
+void ignore_phase_factor_in_qubit(Qubit* a) {
+    long double diff = complex_argument(a->amplitudes[1]) - complex_argument(a->amplitudes[0]);
+    a->amplitudes[0].x = complex_magnitude(a->amplitudes[0]);
+    a->amplitudes[0].y = 0;
+    long double b_magnitude = complex_magnitude(a->amplitudes[1]);
+    a->amplitudes[1].x = b_magnitude * cosl(diff);
+    a->amplitudes[1].y = b_magnitude * sinl(diff);
 }
 
 void qubit_print(Qubit a) {

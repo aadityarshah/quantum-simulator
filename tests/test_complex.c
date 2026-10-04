@@ -4,9 +4,14 @@
 #include "complex.h"
 
 #define EPSILON 1e-12L
+#define PI 3.14159265358979323846
 
 static int complex_approx_equal(Complex a, Complex b) {
     return fabsl(a.x - b.x) < EPSILON && fabsl(a.y - b.y) < EPSILON;
+}
+
+static int approx_equal(long double a, long double b) {
+    return fabsl(a - b) < EPSILON;
 }
 
 static int test_add(void) {
@@ -99,13 +104,31 @@ static int test_magnitude(void) {
     long double expected = 5.0L;
     long double actual = complex_magnitude(z);
 
-    if (fabsl(actual - expected) < EPSILON) {
+    if (approx_equal(actual, expected)) {
         printf("PASS: complex_magnitude\n");
         return 0;
     } else {
         printf("FAIL: complex_magnitude\n");
         printf("Expected: %Lf\n", expected);
         printf("Actual:   %Lf\n", actual);
+        return 1;
+    }
+}
+
+static int test_argument(void) {
+
+    Complex z = {1, -1};
+
+    long double expected = (7 * PI) / (4.0L);
+    long double actual = complex_argument(z);
+
+    if (approx_equal(actual, expected)) {
+        printf("PASS: complex_argument\n");
+        return 0;
+    } else {
+        printf("FAIL: complex_argument\n");
+        printf("Expected: %Lf\n", expected);
+        printf("Actual: %Lf\n", actual);
         return 1;
     }
 }
@@ -118,6 +141,7 @@ int main(void) {
     failures += test_multiply();
     failures += test_conjugate();
     failures += test_magnitude();
+    failures += test_argument();
 
     if (failures == 0) {
         printf("\nAll complex tests passed.\n");

@@ -32,6 +32,14 @@ long double complex_magnitude(Complex a) {
     return sqrtl(a.x * a.x + a.y * a.y);
 }
 
+long double complex_argument(Complex a) {
+    long double angle = atan2l(a.y, a.x);
+    if (angle < 0.0L) {
+        angle += 2.0L * acosl(-1.0L);
+    }
+    return angle;
+}
+
 void complex_print(Complex a) {
     if (a.y < 0) {
         printf("%Lf - %Lfi\n", a.x, -a.y);

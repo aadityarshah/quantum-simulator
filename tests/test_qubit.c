@@ -4,6 +4,7 @@
 #include "qubit.h"
 
 #define EPSILON 1e-12L
+#define PI 3.14159265358979323846
 
 static int approx_equal(long double a, long double b) {
     return fabsl(a - b) < EPSILON;
@@ -107,6 +108,19 @@ static int test_norm(void) {
 static int test_normalize(void) {
     int failures = 0;
 
+    Qubit zero = {{{0.0L, 0.0L}, {0.0L, 0.0L}}};
+
+    qubit_normalize(&zero);
+
+    if (!complex_approx_equal(zero.amplitudes[0], (Complex){0.0L, 0.0L}) ||
+        !complex_approx_equal(zero.amplitudes[1], (Complex){0.0L, 0.0L})) {
+        failures++;
+        printf("FAIL %d: qubit_normalize | zero qubit\n", failures);
+        printf("Expected: zero qubit unchanged\n");
+        printf("Actual: ");
+        qubit_print(zero);
+    }
+
     Qubit a = {{{3.0L, 0.0L}, {4.0L, 0.0L}}};
 
     qubit_normalize(&a);
@@ -178,6 +192,173 @@ static int test_probabilities(void) {
     return failures;
 }
 
+static int test_angular_parameters_of_qubit(void) {
+
+    int failures = 0;
+
+    long double inverse_sqrt_two = 1.0L / sqrtl(2.0L);
+
+    Qubit plus = {{{inverse_sqrt_two, 0.0L}, {inverse_sqrt_two, 0.0L}}};
+    Qubit plus_i = {{{inverse_sqrt_two, 0.0L}, {0.0L, inverse_sqrt_two}}};
+    Qubit minus = {{{inverse_sqrt_two, 0.0L}, {-inverse_sqrt_two, 0.0L}}};
+    Qubit minus_i = {{{inverse_sqrt_two, 0.0L}, {0.0L, -inverse_sqrt_two}}};
+    Qubit arbitrary = {
+        {{0.0L, sqrtl(3.0L) / 2.0L}, {-1.0L / (2.0L * sqrtl(2.0L)), 1.0L / (2.0L * sqrtl(2.0L))}}};
+
+    long double expected_polar_angle_zero = 0.0L;
+    long double expected_polar_angle_one = PI;
+    long double expected_polar_angle_equator = PI / 2.0L;
+
+    long double expected_azimuthal_angle_plus = 0.0L;
+    long double expected_azimuthal_angle_plus_i = PI / 2.0L;
+    long double expected_azimuthal_angle_minus = PI;
+    long double expected_azimuthal_angle_minus_i = 3.0L * PI / 2.0L;
+
+    long double actual_polar_angle_zero = polar_angle_of_qubit(QUBIT_ZERO);
+    long double actual_polar_angle_one = polar_angle_of_qubit(QUBIT_ONE);
+    long double actual_polar_angle_plus = polar_angle_of_qubit(plus);
+    long double actual_polar_angle_plus_i = polar_angle_of_qubit(plus_i);
+
+    long double actual_azimuthal_angle_zero = azimuthal_angle_of_qubit(QUBIT_ZERO);
+    long double actual_azimuthal_angle_one = azimuthal_angle_of_qubit(QUBIT_ONE);
+    long double actual_azimuthal_angle_plus = azimuthal_angle_of_qubit(plus);
+    long double actual_azimuthal_angle_plus_i = azimuthal_angle_of_qubit(plus_i);
+    long double actual_azimuthal_angle_minus = azimuthal_angle_of_qubit(minus);
+    long double actual_azimuthal_angle_minus_i = azimuthal_angle_of_qubit(minus_i);
+
+    long double actual_polar_angle_arbitrary = polar_angle_of_qubit(arbitrary);
+    long double actual_azimuthal_angle_arbitrary = azimuthal_angle_of_qubit(arbitrary);
+
+    if (!approx_equal(actual_polar_angle_zero, expected_polar_angle_zero)) {
+        failures++;
+        printf("FAIL %d: polar_angle_of_qubit | QUBIT_ZERO\n", failures);
+        printf("Expected: %Lf\n", expected_polar_angle_zero);
+        printf("Actual: %Lf\n", actual_polar_angle_zero);
+    }
+
+    if (!approx_equal(actual_polar_angle_one, expected_polar_angle_one)) {
+        failures++;
+        printf("FAIL %d: polar_angle_of_qubit | QUBIT_ONE\n", failures);
+        printf("Expected: %Lf\n", expected_polar_angle_one);
+        printf("Actual: %Lf\n", actual_polar_angle_one);
+    }
+
+    if (!approx_equal(actual_polar_angle_plus, expected_polar_angle_equator)) {
+        failures++;
+        printf("FAIL %d: polar_angle_of_qubit | |+>\n", failures);
+        printf("Expected: %Lf\n", expected_polar_angle_equator);
+        printf("Actual: %Lf\n", actual_polar_angle_plus);
+    }
+
+    if (!approx_equal(actual_polar_angle_plus_i, expected_polar_angle_equator)) {
+        failures++;
+        printf("FAIL %d: polar_angle_of_qubit | |+i>\n", failures);
+        printf("Expected: %Lf\n", expected_polar_angle_equator);
+        printf("Actual: %Lf\n", actual_polar_angle_plus_i);
+    }
+
+    if (!isnan(actual_azimuthal_angle_zero)) {
+        failures++;
+        printf("FAIL %d: azimuthal_angle_of_qubit | QUBIT_ZERO\n", failures);
+        printf("Expected: NAN\n");
+        printf("Actual: %Lf\n", actual_azimuthal_angle_zero);
+    }
+
+    if (!isnan(actual_azimuthal_angle_one)) {
+        failures++;
+        printf("FAIL %d: azimuthal_angle_of_qubit | QUBIT_ONE\n", failures);
+        printf("Expected: NAN\n");
+        printf("Actual: %Lf\n", actual_azimuthal_angle_one);
+    }
+
+    if (!approx_equal(actual_azimuthal_angle_plus, expected_azimuthal_angle_plus)) {
+        failures++;
+        printf("FAIL %d: azimuthal_angle_of_qubit | |+>\n", failures);
+        printf("Expected: %Lf\n", expected_azimuthal_angle_plus);
+        printf("Actual: %Lf\n", actual_azimuthal_angle_plus);
+    }
+
+    if (!approx_equal(actual_azimuthal_angle_plus_i, expected_azimuthal_angle_plus_i)) {
+        failures++;
+        printf("FAIL %d: azimuthal_angle_of_qubit | |+i>\n", failures);
+        printf("Expected: %Lf\n", expected_azimuthal_angle_plus_i);
+        printf("Actual: %Lf\n", actual_azimuthal_angle_plus_i);
+    }
+
+    if (!approx_equal(actual_azimuthal_angle_minus, expected_azimuthal_angle_minus)) {
+        failures++;
+        printf("FAIL %d: azimuthal_angle_of_qubit | |->\n", failures);
+        printf("Expected: %Lf\n", expected_azimuthal_angle_minus);
+        printf("Actual: %Lf\n", actual_azimuthal_angle_minus);
+    }
+
+    if (!approx_equal(actual_azimuthal_angle_minus_i, expected_azimuthal_angle_minus_i)) {
+        failures++;
+        printf("FAIL %d: azimuthal_angle_of_qubit | |-i>\n", failures);
+        printf("Expected: %Lf\n", expected_azimuthal_angle_minus_i);
+        printf("Actual: %Lf\n", actual_azimuthal_angle_minus_i);
+    }
+
+    if (!approx_equal(actual_polar_angle_arbitrary, PI / 3.0L)) {
+        failures++;
+        printf("FAIL %d: polar_angle_of_qubit | arbitrary state\n", failures);
+        printf("Expected: %Lf\n", PI / 3.0L);
+        printf("Actual: %Lf\n", actual_polar_angle_arbitrary);
+    }
+
+    if (!approx_equal(actual_azimuthal_angle_arbitrary, PI / 4.0L)) {
+        failures++;
+        printf("FAIL %d: azimuthal_angle_of_qubit | arbitrary state\n", failures);
+        printf("Expected: %Lf\n", PI / 4.0L);
+        printf("Actual: %Lf\n", actual_azimuthal_angle_arbitrary);
+    }
+
+    if (failures == 0) {
+        printf("PASS: polar_angle_of_qubit | azimuthal_angle_of_qubit\n");
+    }
+
+    return failures;
+}
+
+static int test_ignore_phase_factor(void) {
+
+    int failures = 0;
+
+    long double inverse_sqrt_two = 1.0L / sqrtl(2.0L);
+
+    Qubit a = {
+        {{0.0L, sqrtl(3.0L) / 2.0L}, {-1.0L / (2.0L * sqrtl(2.0L)), 1.0L / (2.0L * sqrtl(2.0L))}}};
+
+    ignore_phase_factor_in_qubit(&a);
+
+    Complex expected_alpha = {sqrtl(3.0L) / 2.0L, 0.0L};
+    Complex expected_beta = {1.0L / (2.0L * sqrtl(2.0L)), 1.0L / (2.0L * sqrtl(2.0L))};
+
+    if (!complex_approx_equal(a.amplitudes[0], expected_alpha)) {
+        failures++;
+        printf("FAIL %d: ignore_phase_factor_in_qubit | alpha\n", failures);
+        printf("Expected: ");
+        complex_print(expected_alpha);
+        printf("Actual: ");
+        complex_print(a.amplitudes[0]);
+    }
+
+    if (!complex_approx_equal(a.amplitudes[1], expected_beta)) {
+        failures++;
+        printf("FAIL %d: ignore_phase_factor_in_qubit | beta\n", failures);
+        printf("Expected: ");
+        complex_print(expected_beta);
+        printf("Actual: ");
+        complex_print(a.amplitudes[1]);
+    }
+
+    if (failures == 0) {
+        printf("PASS: ignore_phase_factor_in_qubit\n");
+    }
+
+    return failures;
+}
+
 static int test_complex_state(void) {
     int failures = 0;
 
@@ -186,6 +367,7 @@ static int test_complex_state(void) {
     Qubit a = {{{1.0L, 0.0L}, {0.0L, 1.0L}}};
 
     qubit_normalize(&a);
+    ignore_phase_factor_in_qubit(&a);
 
     if (!approx_equal(qubit_norm(a), 1.0L)) {
         failures++;
@@ -240,6 +422,26 @@ static int test_complex_state(void) {
         complex_print(inner_product);
     }
 
+    long double expected_polar_angle = PI / 2.0L;
+    long double expected_azimuthal_angle = PI / 2.0L;
+
+    long double actual_polar_angle = polar_angle_of_qubit(a);
+    long double actual_azimuthal_angle = azimuthal_angle_of_qubit(a);
+
+    if (!approx_equal(actual_polar_angle, expected_polar_angle)) {
+        failures++;
+        printf("FAIL %d: complex state polar angle\n", failures);
+        printf("Expected: %Lf\n", expected_polar_angle);
+        printf("Actual: %Lf\n", actual_polar_angle);
+    }
+
+    if (!approx_equal(actual_azimuthal_angle, expected_azimuthal_angle)) {
+        failures++;
+        printf("FAIL %d: complex state azimuthal angle\n", failures);
+        printf("Expected: %Lf\n", expected_azimuthal_angle);
+        printf("Actual: %Lf\n", actual_azimuthal_angle);
+    }
+
     if (failures == 0) {
         printf("PASS: complex qubit state\n");
     }
@@ -257,6 +459,8 @@ int main(void) {
     failures += test_norm();
     failures += test_normalize();
     failures += test_probabilities();
+    failures += test_angular_parameters_of_qubit();
+    failures += test_ignore_phase_factor();
     failures += test_complex_state();
 
     if (failures == 0) {

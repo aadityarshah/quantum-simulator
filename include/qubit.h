@@ -4,7 +4,7 @@
 #include "complex.h"
 
 /**
- * @brief Stores the probability ampltiudes of a qubit state corresponding to computational basis
+ * @brief Stores the probability amplitudes of a qubit state corresponding to computational basis
  * states
  */
 typedef struct {
@@ -39,16 +39,16 @@ Complex qubit_inner_product(Qubit a, Qubit b);
 long double qubit_norm(Qubit a);
 
 /**
- * Computes the square of the probability amplitude corresponding to the zero state for the given
+ * Computes the probability corresponding to the zero state for the given
  * normalized qubit state.
  *
- * @param norm_a A nomralized qubit state
+ * @param norm_a A normalized qubit state
  * @return The square of probability amplitude corresponding to the zero state.
  */
 long double probability_zero(Qubit norm_a);
 
 /**
- * Computes the square of the probability amplitude corresponding to the one state for the given
+ * Computes the probability corresponding to the one state for the given
  * normalized qubit state.
  *
  * @param norm_a A normalized qubit state
@@ -59,9 +59,37 @@ long double probability_one(Qubit norm_a);
 /**
  * Normalizes the given qubit state in-place.
  *
- * @param a A qubit state
+ * @param a A qubit state pointer
  */
 void qubit_normalize(Qubit* a);
+
+/**
+ * Computes the polar angle of a normalized qubit state with its phase factor ignored
+ * in the Bloch Sphere representation.
+ *
+ * @param a A normalized qubit state
+ * @return The polar angle (in radians) of a in the Bloch Sphere
+ * representation.
+ */
+long double polar_angle_of_qubit(Qubit a);
+
+/**
+ * Computes the azimuthal angle of a normalized qubit state with its phase factor ignored
+ * in the Bloch Sphere representation.
+ *
+ * @param a A normalized qubit state
+ * @return The azimuthal angle (in radians) of a in the Bloch Sphere
+ * representation.
+ */
+long double azimuthal_angle_of_qubit(Qubit a);
+
+/**
+ * Removes the global phase factor in-place to give a
+ * physically equivalent qubit state.
+ *
+ * @param a A normalized qubit state pointer
+ */
+void ignore_phase_factor_in_qubit(Qubit* a);
 
 /**
  * Print a qubit state to the standard output.
