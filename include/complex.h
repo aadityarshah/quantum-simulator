@@ -1,6 +1,9 @@
 #ifndef COMPLEX_H
 #define COMPLEX_H
 
+/**
+ * @brief Stores the real and imaginary part of a complex number
+ */
 typedef struct {
     long double x;
     long double y;
