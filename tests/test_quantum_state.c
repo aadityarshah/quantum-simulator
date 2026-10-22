@@ -13,6 +13,48 @@ static int complex_approx_equal(Complex a, Complex b) {
     return fabsl(a.x - b.x) < EPSILON && fabsl(a.y - b.y) < EPSILON;
 }
 
+static int test_phase_factor_multiplication(void) {
+    int failures = 0;
+
+    QuantumState iota_zero_state = quantum_state_multiply_phase(ZERO_STATE, (Complex){0.0L, 1.0L});
+
+    int expected_num_qubits = 1;
+    size_t expected_size = 2;
+
+    if (expected_num_qubits != iota_zero_state.num_qubits) {
+        failures++;
+        printf("FAIL %d: quantum_state_multiply_phase\n", failures);
+        printf("Expected: %d\n", expected_num_qubits);
+        printf("Actual: %d\n", iota_zero_state.num_qubits);
+    }
+
+    if (expected_size != iota_zero_state.size) {
+        failures++;
+        printf("FAIL %d: quantum_state_multiply_phase\n", failures);
+        printf("Expected: %zu\n", expected_size);
+        printf("Actual: %zu\n", iota_zero_state.size);
+    }
+
+    Complex expected_amplitudes[2] = {{0.0L, 1.0L}, {0.0L, 0.0L}};
+
+    for (size_t i = 0; i < iota_zero_state.size; i++) {
+        if (!complex_approx_equal(expected_amplitudes[i], iota_zero_state.amplitudes[i])) {
+            failures++;
+            printf("FAIL %d: quantum_state_multiply_phase\n", failures);
+            printf("Expected: ");
+            complex_print(expected_amplitudes[i]);
+            printf("Actual: ");
+            complex_print(iota_zero_state.amplitudes[i]);
+        }
+    }
+
+    if (failures == 0) {
+        printf("PASS: quantum_state_multiply_phase\n");
+    }
+
+    return failures;
+}
+
 static int test_norm(void) {
     int failures = 0;
 
@@ -47,6 +89,7 @@ static int test_norm(void) {
     if (failures == 0) {
         printf("PASS: quantum_state_norm\n");
     }
+
     return failures;
 }
 
@@ -191,6 +234,7 @@ int main(void) {
 
     int failures = 0;
 
+    failures += test_phase_factor_multiplication();
     failures += test_norm();
     failures += test_inner_product();
     failures += test_normalize();

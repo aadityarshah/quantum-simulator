@@ -9,6 +9,22 @@ static const Complex one_amplitudes[2] = {{0.0L, 0.0L}, {1.0L, 0.0L}};
 const QuantumState ZERO_STATE = {1, 2, (Complex*)zero_amplitudes};
 const QuantumState ONE_STATE = {1, 2, (Complex*)one_amplitudes};
 
+QuantumState quantum_state_multiply_phase(QuantumState a, Complex b) {
+    QuantumState result;
+    result.num_qubits = a.num_qubits;
+    result.size = a.size;
+    result.amplitudes = malloc(sizeof(Complex) * result.size);
+    if (result.amplitudes == NULL) {
+        fprintf(stderr, "Error: failed to allocate memory");
+        return a;
+    }
+    for (size_t i = 0; i < a.size; i++) {
+        result.amplitudes[i] = complex_multiply(a.amplitudes[i], b);
+    }
+
+    return result;
+}
+
 long double quantum_state_norm(QuantumState a) {
     long double norm = 0.0L;
     for (size_t i = 0; i < a.size; i++) {
