@@ -25,6 +25,16 @@ extern const QuantumState ZERO_STATE;
 extern const QuantumState ONE_STATE;
 
 /**
+ * Multiplies the given quantum state by a global phase factor
+ *
+ * @param a A quantum state
+ * @param b A global phase factor
+ * @returns A quantum state obtained by multiplying the probability amplitudes of computational
+ * basis states of quantum state `a` by the global phase factor `b`.
+ */
+QuantumState quantum_state_multiply_phase(QuantumState a, Complex b);
+
+/**
  * Computes the norm of the quantum state which is the quantum state's inner product with itself.
  *
  * @param a A quantum state
