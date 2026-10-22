@@ -41,7 +41,7 @@ While working with multi qubit systems, state change is very frequent so accessi
 
 ### Global Phase Factors
 
-Any quantum state can be multiplied by a global phase factor which would be a complex number that could be represented by $e^{i\thteta}$. This could be ignored in particular cases since it does not have any physical significance in itself but it becomes important many times in multi-qubit systems when the state of one qubit is dependent on the others and their global phase factor, especially when the quantum state is a superposition of computational basis states instead of being purely in a computational basis state.
+Any quantum state can be multiplied by a global phase factor which would be a complex number that could be represented by $e^{i\theta}$. This could be ignored in particular cases since it does not have any physical significance in itself but it becomes important many times in multi-qubit systems when the state of one qubit is dependent on the others and their global phase factor, especially when the quantum state is a superposition of computational basis states instead of being purely in a computational basis state.
 
 ### Normalization
 
