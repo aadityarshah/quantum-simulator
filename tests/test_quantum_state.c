@@ -89,7 +89,6 @@ static int test_norm(void) {
     if (failures == 0) {
         printf("PASS: quantum_state_norm\n");
     }
-
     return failures;
 }
 

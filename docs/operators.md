@@ -52,9 +52,30 @@ $$
 Thus,
 
 $$
-A \otimes B = \begin{bmatrix}
-0 \times \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} & 1 \times \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \\
-0 \times \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} & 0 \times \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \\
+A \otimes B = 
+\begin{bmatrix}
+0 \times 
+\begin{bmatrix} 
+1 & 0 \\ 
+0 & 1 
+\end{bmatrix} 
+& 
+1 \times 
+\begin{bmatrix} 
+1 & 0 \\
+0 & 1 
+\end{bmatrix} \\
+0 \times 
+\begin{bmatrix} 
+1 & 0 \\ 
+0 & 1 
+\end{bmatrix} 
+& 
+0 \times 
+\begin{bmatrix} 
+1 & 0 \\ 
+0 & 1 
+\end{bmatrix} \\
 \end{bmatrix}
 $$
 
@@ -83,9 +104,9 @@ $$
 
 then, $a_i$ is the eigenvalue and $\ket{a_i}$ is the corresponding eigenvector.
 
-Computing eigenvalues and eigenvectors for any $N \times N$ matrix could be best done in $\mathcal{O}(n^3)$. In quantum computing, we try to deal in Pauli operators and could express any operator in terms of the Identity operator and Pauli operators. We keep in mind the eigenvalues and eigenvectors for the pauli operators and thus accordingly, we could determine eigenvectors and eigenvalues of any operator. 
+Computing eigenvalues and eigenvectors for any $N \times N$ matrix could be best done in $\mathcal{O}(N^3)$. In quantum computing, we try to deal in Pauli operators and could express any operator in terms of the Identity operator and Pauli operators. We keep in mind the eigenvalues and eigenvectors for the pauli operators and thus accordingly, we could determine eigenvectors and eigenvalues of any operator. 
 
-However, how this shall be implemented in code is not something too trivial to me at this point in time, but I will look forward to it in the future. For dealing with basic quantum gates and quantum circuits, the acting of operator on any quantum state is sufficient to work with. 
+However, how this shall be implemented in code is not something too trivial to me at this point in time, but I will look forward to it in the future. For dealing with basic quantum gates and quantum circuits, the acting of operator on any quantum state seems sufficient to work with. 
 
 ### Hermitian Operators
 
