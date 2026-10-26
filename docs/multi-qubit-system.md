@@ -2,7 +2,7 @@
 
 While dealing with practical quantum circuits, we almost always encounter more than a single qubit system. Therefore, one of the most important things in a quantum simulator is how several qubits are stored.  
 
-A state $\ket{\psi}$ of a multi qubit system of $n$ qubits where each qubit's state is denoted by $\ket{\psi_i}$, $i = 1, \cdots, n$ can be represented by the tensor products
+A state $\ket{\psi}$ of a multi qubit system of $n$ qubits where each qubit's state is denoted by $\ket{\psi_i}$, $i = 1, \cdots, n$ can be represented by the tensor products when initially constructed using $\{\ket{\psi_i}\}$ as follows
 
 $$
 \ket{\psi} = \ket{\psi_1} \otimes \ket{\psi_2} \otimes \cdots \otimes \ket{\psi_n}
@@ -22,7 +22,7 @@ In highly entangled systems, this representation seems inefficient but at the sa
 
 #### Trade-off while using array to store multi qubit systems
 
-The data type `long double` in C takes upto $16$ bytes. Each `Complex` number consists of two `long double` entries thus sizing about $32$ bytes. Hence, each qubit state would require about $64$ bytes ($2^6$ bytes). 1 GB is about $2^30$ bytes and thus, 24 qubit system will take up 1 GB space. Moving ahead, 34 qubit system will take up 1 TB space. Thus, it is practically not feasible to simulate large multi qubit systems atleast in this manner. 
+The data type `long double` in C takes upto $16$ bytes. Each `Complex` number consists of two `long double` entries thus sizing about $32$ bytes. Hence, each qubit state would require about $64$ bytes ($2^6$ bytes). 1 GB is about $2^{30}$ bytes and thus, 25 qubit system will take up 1 GB space. Moving ahead, 35 qubit system will take up 1 TB space. Thus, it is practically not feasible to simulate large multi qubit systems atleast in this manner. 
 
 #### Parameters
 
@@ -49,7 +49,7 @@ In a multi qubit system, the normalization is taken care of at the level of all 
 
 ### Inner Product
 
-For an inner product, we need two vectors from the same vector space. Since a qubit belongs to $\mathcal{H}^2$, a quantum state with $n$ qubits belongs to the Hilbert space $\mathcal{H}^{2^n}$. In such a case, the inner product could be computed by multiplying the probability amplitudes corresponding to each of the states (it must be noted that all the computational basis states even in a quantum state are orthonormal to each other).
+For an inner product, we need two vectors from the same vector space. Since a qubit belongs to $\mathcal{H}^2$, a quantum state with $n$ qubits belongs to the Hilbert space $\mathcal{H}^{2^n}$. In such a case, the inner product could be computed by multiplying the probability amplitudes corresponding to each of the states with complex conjugate of the first one in the order (it must be noted that all the computational basis states even in a quantum state are orthonormal to each other).
 
 ### Tensor Product
 
