@@ -146,6 +146,34 @@ static int test_hermitian_operators(void) {
         printf("Actual: No\n");
     }
 
+    if (operator_is_hermitian(T_OPERATOR)) {
+        failures++;
+        printf("FAIL %d: operator_is_hermitian | T_OPERATOR\n", failures);
+        printf("Expected: No\n");
+        printf("Actual: Yes\n");
+    }
+
+    if (operator_is_hermitian(S_OPERATOR)) {
+        failures++;
+        printf("FAIL %d: operator_is_hermitian | S_OPERATOR\n", failures);
+        printf("Expected: No\n");
+        printf("Actual: Yes\n");
+    }
+
+    if (!operator_is_hermitian(H_OPERATOR)) {
+        failures++;
+        printf("FAIL %d: operator_is_hermitian | H_OPERATOR\n", failures);
+        printf("Expected: Yes\n");
+        printf("Actual: No\n");
+    }
+
+    if (!operator_is_hermitian(CX_OPERATOR)) {
+        failures++;
+        printf("FAIL %d: operator_is_hermitian | CX_OPERATOR\n", failures);
+        printf("Expected: Yes\n");
+        printf("Actual: No\n");
+    }
+
     if (failures == 0) {
         printf("PASS: operator_is_hermitian\n");
     }
@@ -175,8 +203,8 @@ static int test_operator_adjoint(void) {
 
     if (operator.num_qubits != adjoint_operator.num_qubits) {
         printf("FAIL %d: operator_adjoint | num_qubits\n", failures);
-        printf("Expected: %d\n", operator.num_qubits);
-        printf("Actual: %d\n", adjoint_operator.num_qubits);
+        printf("Expected: %zu\n", operator.num_qubits);
+        printf("Actual: %zu\n", adjoint_operator.num_qubits);
     }
 
     if (operator.size != adjoint_operator.size) {
@@ -210,13 +238,13 @@ static int test_operator_tensor(void) {
     int failures = 0;
 
     Operator tensor = operators_tensor(X_OPERATOR, Y_OPERATOR);
-    int expected_tensor_num_qubits = 2;
+    size_t expected_tensor_num_qubits = 2;
     size_t expected_tensor_size = 4;
 
     if (expected_tensor_num_qubits != tensor.num_qubits) {
         printf("FAIL %d: operators_tensor | num_qubits\n", failures);
-        printf("Expected: %d\n", expected_tensor_num_qubits);
-        printf("Actual: %d\n", tensor.num_qubits);
+        printf("Expected: %zu\n", expected_tensor_num_qubits);
+        printf("Actual: %zu\n", tensor.num_qubits);
     }
 
     if (expected_tensor_size != tensor.size) {
@@ -251,6 +279,71 @@ static int test_operator_tensor(void) {
     return failures;
 }
 
+static int test_unitary_operators(void) {
+    int failures = 0;
+
+    if (!operator_is_unitary(IDENTITY_OPERATOR)) {
+        failures++;
+        printf("FAIL %d: operator_is_unitary | IDENTITY_OPERATOR\n", failures);
+        printf("Expected: Yes\n");
+        printf("Actual: No\n");
+    }
+    if (!operator_is_unitary(X_OPERATOR)) {
+        failures++;
+        printf("FAIL %d: operator_is_unitary | X_OPERATOR\n", failures);
+        printf("Expected: Yes\n");
+        printf("Actual: No\n");
+    }
+
+    if (!operator_is_unitary(Y_OPERATOR)) {
+        failures++;
+        printf("FAIL %d: operator_is_unitary | Y_OPERATOR\n", failures);
+        printf("Expected: Yes\n");
+        printf("Actual: No\n");
+    }
+
+    if (!operator_is_unitary(Z_OPERATOR)) {
+        failures++;
+        printf("FAIL %d: operator_is_unitary | Z_OPERATOR\n", failures);
+        printf("Expected: Yes\n");
+        printf("Actual: No\n");
+    }
+
+    if (!operator_is_unitary(T_OPERATOR)) {
+        failures++;
+        printf("FAIL %d: operator_is_unitary | T_OPERATOR\n", failures);
+        printf("Expected: Yes\n");
+        printf("Actual: No\n");
+    }
+
+    if (!operator_is_unitary(S_OPERATOR)) {
+        failures++;
+        printf("FAIL %d: operator_is_unitary | S_OPERATOR\n", failures);
+        printf("Expected: Yes\n");
+        printf("Actual: No\n");
+    }
+
+    if (!operator_is_unitary(H_OPERATOR)) {
+        failures++;
+        printf("FAIL %d: operator_is_unitary | H_IOPERATOR\n", failures);
+        printf("Expected: Yes\n");
+        printf("Actual: No\n");
+    }
+
+    if (!operator_is_unitary(CX_OPERATOR)) {
+        failures++;
+        printf("FAIL %d: operator_is_unitary | CX_OPERATOR\n", failures);
+        printf("Expected: Yes\n");
+        printf("Actual: No\n");
+    }
+
+    if (failures == 0) {
+        printf("PASS: operator_is_unitary\n");
+    }
+
+    return failures;
+}
+
 int main(void) {
 
     printf("----- TESTING OPERATORS -----\n\n");
@@ -262,6 +355,7 @@ int main(void) {
     failures += test_hermitian_operators();
     failures += test_operator_adjoint();
     failures += test_operator_tensor();
+    failures += test_unitary_operators();
 
     if (failures == 0) {
         printf("\nAll operator tests passed.\n");

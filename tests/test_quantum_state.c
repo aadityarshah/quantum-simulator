@@ -18,14 +18,14 @@ static int test_phase_factor_multiplication(void) {
 
     QuantumState iota_zero_state = quantum_state_multiply_phase(ZERO_STATE, (Complex){0.0L, 1.0L});
 
-    int expected_num_qubits = 1;
+    size_t expected_num_qubits = 1;
     size_t expected_size = 2;
 
     if (expected_num_qubits != iota_zero_state.num_qubits) {
         failures++;
         printf("FAIL %d: quantum_state_multiply_phase\n", failures);
-        printf("Expected: %d\n", expected_num_qubits);
-        printf("Actual: %d\n", iota_zero_state.num_qubits);
+        printf("Expected: %zu\n", expected_num_qubits);
+        printf("Actual: %zu\n", iota_zero_state.num_qubits);
     }
 
     if (expected_size != iota_zero_state.size) {
@@ -190,14 +190,14 @@ static int test_tensor() {
     int failures = 0;
 
     QuantumState tensor = quantum_states_tensor(ZERO_STATE, ONE_STATE);
-    int expected_tensor_num_qubits = 2;
+    size_t expected_tensor_num_qubits = 2;
     size_t expected_tensor_size = 4;
 
     if (expected_tensor_num_qubits != tensor.num_qubits) {
         failures++;
         printf("FAIL %d: quantum_states_tensor\n", failures);
-        printf("Expected: %d\n", expected_tensor_num_qubits);
-        printf("Actual: %d\n", tensor.num_qubits);
+        printf("Expected: %zu\n", expected_tensor_num_qubits);
+        printf("Actual: %zu\n", tensor.num_qubits);
     }
 
     if (expected_tensor_size != tensor.size) {

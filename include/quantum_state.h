@@ -9,7 +9,7 @@
  * computational basis states
  */
 typedef struct {
-    int num_qubits;
+    size_t num_qubits;
     size_t size;
     Complex* amplitudes;
 } QuantumState;
