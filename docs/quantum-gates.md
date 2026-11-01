@@ -7,6 +7,7 @@ An operator $\hat{U}$ is unitary, for our purposes, if its inverse equals to its
 $$
 \hat{U}^{\dagger} \hat{U} = \hat{U} \hat{U}^{\dagger} = I
 $$
+
 The operators are required to be unitary by the laws of quantum mechanics in order to conserve probability.
 
 A set of gates is called universal if any arbitrary unitary operation can be approximated to high precision by combining them.
