@@ -8,7 +8,7 @@
  * @brief Stores the matrix elements of the operator
  */
 typedef struct {
-    int num_qubits;
+    size_t num_qubits;
     size_t size;
     Complex* elements;
 } Operator;
@@ -37,6 +37,26 @@ extern const Operator Y_OPERATOR;
  * Pauli's Z operator;
  */
 extern const Operator Z_OPERATOR;
+
+/**
+ * T gate
+ */
+extern const Operator T_OPERATOR;
+
+/**
+ * Phase gate
+ */
+extern const Operator S_OPERATOR;
+
+/**
+ * Hadamard gate
+ */
+extern const Operator H_OPERATOR;
+
+/**
+ * CNOT gate
+ */
+extern const Operator CX_OPERATOR;
 
 /**
  * Computes the new quantum state obtained when given operator acts on the given quantum state
@@ -80,6 +100,14 @@ int operator_is_hermitian(Operator A);
  * @returns An operator obtained by tensor product $A \otimes B$
  */
 Operator operators_tensor(Operator A, Operator B);
+
+/**
+ * Check if the given operator is Unitary
+ *
+ * @param A An operator
+ * @returns `0` if the operator `A` is not Unitary and `1` otherwise
+ */
+int operator_is_unitary(Operator A);
 
 void operator_print(Operator A);
 

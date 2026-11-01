@@ -85,7 +85,7 @@ void quantum_state_print(QuantumState a) {
     printf("--- Quantum State ---\n");
     for (size_t i = 0; i < a.size; i++) {
         printf("|");
-        for (int bit = a.num_qubits - 1; bit >= 0; bit--) {
+        for (int bit = (int)a.num_qubits - 1; bit >= 0; bit--) {
             size_t k = (i >> bit) & 1;
             printf("%zu", k);
         }
